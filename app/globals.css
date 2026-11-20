@@ -1,26 +1,114 @@
 @import "tailwindcss";
+@import "@heroui/styles";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* --------------------------------------------------------------------------
+   1. Thème Kasa — surcharge des variables HeroUI
+   -------------------------------------------------------------------------- */
+:root,
+.light,
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* Palette Kasa (Figma > Couleurs) */
+  --kasa-main-red: #99331a;
+  --kasa-dark-orange: #842c16;
+  --kasa-light-orange: #fffbf8;
+  --kasa-noir: #0d0d0d;
+  --kasa-blanc: #ffffff;
+  --kasa-gris-light: #f5f5f5;
+  --kasa-gris-dark: #565656;
+
+  /* Base */
+  --background: var(--kasa-light-orange);
+  --foreground: var(--kasa-noir);
+
+  /* Accent = boutons primaires, liens, focus */
+  --accent: var(--kasa-main-red);
+  --accent-foreground: var(--kasa-blanc);
+  --accent-hover: var(--kasa-dark-orange);
+
+  /* Default = boutons secondaires (variant="secondary" / "tertiary") */
+  --default: var(--kasa-gris-light);
+  --default-foreground: var(--kasa-noir);
+  --accent-soft-foreground: var(--kasa-gris-dark);
+  --default-hover: #ebebeb;
+
+  /* Surfaces (Card, Accordion…) et overlays (Modal, Popover, Menu…) */
+  --surface: var(--kasa-blanc);
+  --surface-foreground: var(--kasa-noir);
+  --surface-secondary: var(--kasa-gris-light);
+  --overlay: var(--kasa-blanc);
+  --overlay-foreground: var(--kasa-noir);
+
+  /* Texte secondaire */
+  --muted: var(--kasa-gris-dark);
+
+  /* Champs de formulaire (Input, TextArea, Checkbox…) */
+  --field-background: var(--kasa-blanc);
+  --field-foreground: var(--kasa-noir);
+  --field-placeholder: var(--kasa-gris-dark);
+  --field-border: #e3e3e3;
+  --field-border-width: 1px;
+
+  /* Divers */
+  --border: #e3e3e3;
+  --separator: #ececec;
+  --focus: var(--kasa-main-red);
+  --link: var(--accent);
+
+  /* Rayons mesurés sur la maquette */
+  --radius: 0.625rem;      /* 10px — boutons, cartes */
+  --field-radius: 0.25rem; /* 4px  — champs          */
 }
 
+/* --------------------------------------------------------------------------
+   2. Tokens Tailwind supplémentaires
+   -------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-kasa-main-red: var(--kasa-main-red);
+  --color-kasa-dark-orange: var(--kasa-dark-orange);
+  --color-kasa-light-orange: var(--kasa-light-orange);
+  --color-kasa-gris-light: var(--kasa-gris-light);
+  --color-kasa-gris-dark: var(--kasa-gris-dark);
+  --color-kasa-noir: var(--kasa-noir);
+
+  --radius-normal: var(--radius);
+  --radius-field: var(--field-radius);
+
+  /* Police chargée via next/font (variable --font-inter dans layout.tsx) */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* --------------------------------------------------------------------------
+   3. Base
+   -------------------------------------------------------------------------- */
+@layer base {
+  /* html { } */
+
+  body { @apply bg-background font-sans text-foreground antialiased; }
+
+  h1,
+  h2 { @apply font-bold leading-tight text-accent; }
+  h1 { @apply text-3xl md:text-4xl; }
+  h2 { @apply text-2xl md:text-3xl; }
+  h3 { @apply text-xl font-semibold; }
+
+  ::selection { @apply bg-accent text-accent-foreground; }
+}
+
+/* --------------------------------------------------------------------------
+   4. Components
+   -------------------------------------------------------------------------- */
+@layer components {
+  .kasa-header {
+    @apply bg-white w-full p-4 md:max-w-195.5 md:rounded-normal md:my-2 md:mx-auto;
+    box-shadow: 0px 4px 4px 0px rgba(182, 182, 182, 0.05);
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  .link { @apply text-sm hover:no-underline; }
+
+  .input { @apply w-auto h-10 bg-white border border-kasa-gris-light shadow-none; }
+
+  .button { @apply rounded-normal; }
+  .button:disabled { @apply bg-kasa-gris-light text-kasa-gris-dark opacity-100; }
 }
