@@ -17,9 +17,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={inter.variable}
+      className={`${inter.variable} scrollbar-gutter-both`}
     >
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen md:pt-10">
         <Providers>
           <Menu />
           {children}

@@ -11,10 +11,10 @@ export default function Menu() {
     return (
         <header className="kasa-header">
             <nav >
-                <Logo variant="picto" className="block md:hidden" />
+                <Logo variant="picto" className="block md:hidden relative" />
                 <div className="flex flex-row w-full justify-between items-center md:hidden">
                     <Disclosure isExpanded={menuExpanded} onExpandedChange={setMenuExpanded} className="w-full">
-                        <DisclosureTrigger className="fixed right-2 top-5" onClick={() => setMenuExpanded(!menuExpanded)}>
+                        <DisclosureTrigger className="absolute right-2 -top-12 z-10" onClick={() => setMenuExpanded(!menuExpanded)}>
                             <Icon name="menu" className={`size-11.25 text-kasa-gris-dark ${menuExpanded && "hidden"}`} />
                             <Icon name="close" className={`size-11.25 text-kasa-gris-dark ${!menuExpanded && "hidden"}`} />
                         </DisclosureTrigger>
