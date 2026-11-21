@@ -1,6 +1,7 @@
 import Icon from "@/app/components/Icon";
 import { getPropertiesDetail } from "@/app/lib/properties";
 import { Avatar, AvatarImage, Button, Chip, Spinner } from "@heroui/react";
+import { notFound } from "next/navigation";
 import { ReactNode, Suspense } from "react";
 
 type PropertyPageParams = { id: string }
@@ -8,6 +9,11 @@ type PropertyPageParams = { id: string }
 async function PropertyDetail({ params }: { params: Promise<PropertyPageParams> }): Promise<ReactNode> {
     const { id } = await params;
     const propertyDetail = await getPropertiesDetail(id)
+
+    if ("error" in propertyDetail) {
+        if (propertyDetail.status === 404) notFound()
+        throw new Error(`Impossible de récupérer la propriété ${id} : ${propertyDetail.error}`)
+    }
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5 items-start">

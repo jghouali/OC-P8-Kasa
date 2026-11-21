@@ -5,7 +5,8 @@ import { redirect } from "next/navigation";
 import { HTTP_METHOD } from "next/dist/server/web/http";
 
 export type KasaError = {
-    error: string
+    error: string,
+    status?: number
 }
 export const API_URL = process.env.API_URL ?? "http://localhost:3001";
 
@@ -82,10 +83,12 @@ export type PropertyDetail = {
     cover: string,
     location: string,
     price_per_night: number,
+    rating_avg: number,
+    ratings_count: number,
     host: PropertyHost
     pictures: Array<string>,
-    equipments: string,
-    tags: string
+    equipments: Array<string>,
+    tags: Array<string>
 }
 
 export type RegisterFields = "lastname" | "firstname" | LoginFields
@@ -158,11 +161,10 @@ export async function apiRequest<T extends AuthResponse | Array<PropertyBase> | 
     // console.log("data dans api.ts : ", data)
 
     if (data.error) {
-        return ({ error: data.error })
-    } else {
-        if (response.ok) return data;
+        return { error: data.error, status: response.status }
     }
-    return { error: `Erreur ${response.status} : Reponse de l'API invalide` };
+    if (response.ok) return data;
+    return { error: `Erreur ${response.status} : Reponse de l'API invalide`, status: response.status };
 }
 
 /**

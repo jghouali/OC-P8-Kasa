@@ -14,7 +14,7 @@ export async function getProperties(): Promise<Array<PropertyBase> | KasaError> 
 export async function getPropertiesDetail(id: string): Promise<PropertyDetail | KasaError> {
     const result = await apiRequest<PropertyDetail>(`/api/properties/${id}`, { method: "GET", redirectOnUnauthorized: false })
 
-    if ("error" in result) { return { error: result.error } }
+    if ("error" in result) return result
 
     if (result.id) {
         return result
