@@ -1,0 +1,36 @@
+import Image from 'next/image'
+import BannerTopImage from '../../public/images/banner-top-apropos.jpg'
+import ImageApropos from '../../public/images/image-apropos.jpg'
+
+
+export default function APropos() {
+    return (
+        <div>
+            <div className="flex flex-col flex-1 items-center justify-center gap-10 py-10">
+                <h1>À propos</h1>
+                <p>Chez Kasa, nous croyons que chaque voyage mérite un lieu unique où se sentir bien.</p>
+                <p>Depuis notre création, nous mettons en relation des voyageurs en quête d’authenticité avec des hôtes passionnés qui aiment partager leur région et leurs bonnes adresses.</p>
+                <Image width={1115} height={572} src={BannerTopImage} alt="Maison en bois avec terrasse, au cœur d'un jardin arboré" className="rounded-xl" />
+            </div>
+            <div className='flex flex-row'>
+                <div>
+                    <h2>Notre mission est simple :</h2>
+                    <p>
+                        1. Offrir une plateforme fiable et simple d’utilisation
+                    </p>
+                    <p>
+                        2. Proposer des hébergements variés et de qualité
+                    </p>
+                    <p>
+                        3. Favoriser des échanges humains et chaleureux entre hôtes et voyageurs
+                    </p>
+                    <p>Que vous cherchiez un appartement cosy en centre-ville, une maison en bord de mer ou un chalet à la montagne, Kasa vous accompagne pour que chaque séjour devienne un souvenir inoubliable.</p>
+                </div>
+                <div>
+                    <Image src={ImageApropos} width={814} height={458} alt='Chalet en bois à grande façade vitrée, illuminé au crépuscule.' />
+                </div>
+
+            </div>
+        </div>
+    )
+}

@@ -7,7 +7,7 @@ import { HTTP_METHOD } from "next/dist/server/web/http";
 export type KasaError = {
     error: string
 }
-const API_URL = process.env.API_URL ?? "http://localhost:3001";
+export const API_URL = process.env.API_URL ?? "http://localhost:3001";
 
 export type KasaOk = {
     ok: boolean
@@ -25,7 +25,7 @@ export type AuthUser = {
 
 export type AuthResponse = {
     token: string,
-} & AuthUser | KasaError
+} & AuthUser
 
 export type PasswordResetRequestResponse = {
     message: string,
@@ -74,13 +74,27 @@ export type PropertyCreate = {
     tags: string
 }
 
+export type PropertyDetail = {
+    id: string,
+    slug: string,
+    title: string,
+    description: string,
+    cover: string,
+    location: string,
+    price_per_night: number,
+    host: PropertyHost
+    pictures: Array<string>,
+    equipments: string,
+    tags: string
+}
+
 export type RegisterFields = "lastname" | "firstname" | LoginFields
 export type LoginFields = "email" | "password"
 
 export type FieldErrors<T extends RegisterFields = RegisterFields> = Partial<Record<T, string>>;
 
 /** Réponse normalisée de l'API : toujours la même forme, succès ou erreur. */
-export type ApiResult<T extends AuthResponse> = T | KasaError
+export type ApiResult<T extends AuthResponse | Array<PropertyBase> | PropertyDetail> = T | KasaError
 
 /** Résultat renvoyé par les server actions aux formulaires et boutons. */
 export type ActionResult<T extends Exclude<AuthResponse, "token">> = T | KasaError
@@ -110,7 +124,7 @@ type ApiRequestOptions = {
  * @example
  * const { ok, data, errors, fieldErrors } = await apiRequest("/projects", { method: "POST", body: { name } });
  */
-export async function apiRequest<T extends AuthResponse>(path: string, { method = "GET", body, redirectOnUnauthorized = true }: ApiRequestOptions = {}): Promise<ApiResult<T>> {
+export async function apiRequest<T extends AuthResponse | Array<PropertyBase> | PropertyDetail>(path: string, { method = "GET", body, redirectOnUnauthorized = true }: ApiRequestOptions = {}): Promise<ApiResult<T>> {
     const token = (await cookies()).get("token")?.value;
     if (!token && redirectOnUnauthorized) {
         redirect("/login");
@@ -132,7 +146,7 @@ export async function apiRequest<T extends AuthResponse>(path: string, { method 
         return { error: "Erreur 503 : Le serveur est injoignable. Réessayez dans quelques instants." };
     }
 
-    console.log("response in api.js : ", response)
+    // console.log("response in api.js : ", response)
 
     // en dehors du try : redirect() lance une exception que le catch ne doit pas attraper
     if (response.status === 401 && redirectOnUnauthorized) {
@@ -141,7 +155,7 @@ export async function apiRequest<T extends AuthResponse>(path: string, { method 
 
     const data = await response.json().catch(() => ({ error: `Erreur ${response.status} : Reponse de l'API invalide` })) || { error: `Erreur ${response.status} : Reponse de l'API invalide` };
 
-    console.log("data dans api.ts : ", data)
+    // console.log("data dans api.ts : ", data)
 
     if (data.error) {
         return ({ error: data.error })
@@ -153,7 +167,6 @@ export async function apiRequest<T extends AuthResponse>(path: string, { method 
 
 /**
  * Crée le cookie de session (httpOnly) : il expire en même temps que le JWT.
- * @param token  JWT renvoyé par /auth/login ou /auth/register
  */
 export async function setSessionCookie(token: string): Promise<void> {
     const { exp } = JSON.parse(atob(token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
