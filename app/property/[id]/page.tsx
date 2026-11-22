@@ -1,8 +1,10 @@
+import BackButton from "@/app/components/BackButton";
+import Carroussel from "@/app/components/Caroussel";
 import Icon from "@/app/components/Icon";
 import { getPropertiesDetail } from "@/app/lib/properties";
 import { Avatar, AvatarImage, Button, Chip, Spinner } from "@heroui/react";
 import { notFound } from "next/navigation";
-import { ReactNode, Suspense } from "react";
+import { ReactNode, Suspense, ViewTransition } from "react";
 
 type PropertyPageParams = { id: string }
 
@@ -19,21 +21,7 @@ async function PropertyDetail({ params }: { params: Promise<PropertyPageParams> 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5 items-start">
 
             {/* Photos */}
-            <div className="grid grid-cols-4 gap-2.5 lg:col-span-2 lg:grid-rows-2 lg:h-89.5">
-                {propertyDetail.pictures.slice(0, 5).map((src, i) => (
-                    <img
-                        key={src}
-                        src={src}
-                        alt={`Photo ${i + 1} du logement`}
-                        className={
-                            "w-full rounded-md object-cover lg:h-full lg:min-h-0 lg:aspect-auto " +
-                            (i === 0
-                                ? "col-span-4 aspect-6/7 lg:col-span-2 lg:row-span-2"
-                                : "aspect-4/5")
-                        }
-                    />
-                ))}
-            </div>
+            <Carroussel pictures={propertyDetail.pictures} />
 
             {/* Description */}
             <div className="flex flex-col gap-10 p-6 bg-white rounded-xl lg:col-span-2">
@@ -95,13 +83,13 @@ async function PropertyDetail({ params }: { params: Promise<PropertyPageParams> 
 
 export default function PropertyPage({ params }: PageProps<"/property/[id]">) {
     return (
-        <div className="flex flex-col gap-5 p-4 lg:p-35">
-            <Button variant="secondary" type="button" className="self-start">
-                <Icon name="back" />Retour aux annonces
-            </Button>
-            <Suspense fallback={<Spinner />}>
-                <PropertyDetail params={params} />
-            </Suspense>
-        </div>
+        <ViewTransition enter="page-enter" exit="page-exit" default="none">
+            <div className="flex flex-col max-w-278.75 2xl:max-w-4/5 mx-auto pt-2.5 lg:pt-25 px-4 lg:px-35 gap-10">
+                <BackButton label="Retour aux annonces" />
+                <Suspense fallback={<Spinner />}>
+                    <PropertyDetail params={params} />
+                </Suspense>
+            </div>
+        </ViewTransition>
     )
 }

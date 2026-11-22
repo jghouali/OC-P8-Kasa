@@ -149,16 +149,12 @@ export async function apiRequest<T extends AuthResponse | Array<PropertyBase> | 
         return { error: "Erreur 503 : Le serveur est injoignable. Réessayez dans quelques instants." };
     }
 
-    // console.log("response in api.js : ", response)
-
     // en dehors du try : redirect() lance une exception que le catch ne doit pas attraper
     if (response.status === 401 && redirectOnUnauthorized) {
         redirect("/logout");
     }
 
     const data = await response.json().catch(() => ({ error: `Erreur ${response.status} : Reponse de l'API invalide` })) || { error: `Erreur ${response.status} : Reponse de l'API invalide` };
-
-    // console.log("data dans api.ts : ", data)
 
     if (data.error) {
         return { error: data.error, status: response.status }

@@ -7,8 +7,6 @@ export async function proxy(request: NextRequest) {
 
     const isPublic = ["/login", "/register", "/recover", "/", "/a-propos"]
 
-    // console.log("request.nextUrl.pathname : ", request.nextUrl.pathname)
-
     if (!token && isPublic.includes(request.nextUrl.pathname)) return NextResponse.next()
 
     if (!token) {

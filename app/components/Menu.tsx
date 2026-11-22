@@ -44,12 +44,35 @@ export default function Menu() {
                         </DisclosureContent>
                     </Disclosure>
                 </div>
+
                 <div className="hidden md:flex lg:px-25 flex-row justify-between items-center">
+
+                    {/* Menu de Gauche */}
                     <div className="flex gap-7">
                         <Link href="/" className="text-foreground">Accueil</Link>
                         <Link href="/a-propos" className="text-foreground">À propos</Link>
                     </div>
-                    <Logo />
+
+                    {/* Bouton Logo */}
+                    <div className="relative group h-10">
+                        <Link href="/" aria-label="Kasa, accueil">
+                            <Logo />
+                        </Link>
+
+                        <div className="absolute top-15 left-1/2 -translate-x-1/2 pt-2
+                    invisible opacity-0 -translate-y-8
+                    group-hover:visible group-hover:opacity-100 group-hover:translate-y-0
+                    group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0
+                    transition-all duration-300 ease-out motion-reduce:transition-none">
+                            <button
+                                type="button"
+                                className="flex items-center gap-2 px-8 py-2 rounded-full bg-white shadow-md text-sm text-kasa-main-red whitespace-nowrap cursor-pointer hover:bg-kasa-gris-light"
+                            >
+                                <Icon name="search" className="size-8" />
+                            </button>
+                        </div>
+                    </div>
+
                     <Link href="/add" className="text-kasa-main-red">+ Ajouter un logement</Link>
                     <div className="flex gap-2 items-center">
                         <Icon name="favoris" className="text-kasa-main-red" />
