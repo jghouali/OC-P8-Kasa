@@ -1,4 +1,7 @@
+import { cache } from "react";
 import { apiRequest, KasaError, PropertyBase, PropertyDetail } from "./api";
+
+export const cachedGetProperties = cache(getProperties)
 
 export async function getProperties(): Promise<Array<PropertyBase> | KasaError> {
     const result = await apiRequest<Array<PropertyBase>>("/api/properties", { method: "GET", redirectOnUnauthorized: false })

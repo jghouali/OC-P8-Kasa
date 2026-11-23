@@ -1,20 +1,28 @@
 import BackButton from "@/app/components/BackButton";
 import Carroussel from "@/app/components/Caroussel";
 import Icon from "@/app/components/Icon";
-import { getPropertiesDetail } from "@/app/lib/properties";
+import { cachedGetProperties, getPropertiesDetail } from "@/app/lib/properties";
 import { Avatar, AvatarImage, Button, Chip, Spinner } from "@heroui/react";
 import { notFound } from "next/navigation";
 import { ReactNode, Suspense, ViewTransition } from "react";
 
-type PropertyPageParams = { id: string }
+type PropertySlugPageParams = { slug: string }
 
-async function PropertyDetail({ params }: { params: Promise<PropertyPageParams> }): Promise<ReactNode> {
-    const { id } = await params;
-    const propertyDetail = await getPropertiesDetail(id)
+async function PropertyDetail({ params }: { params: Promise<PropertySlugPageParams> }): Promise<ReactNode> {
+    const { slug } = await params;
+    const properties = await cachedGetProperties()
+    if ("error" in properties) {
+        throw new Error(`Impossible de récupérer les propriétés : ${properties.error}`)
+    }
+
+    const property = properties.find((property) => property.slug === slug)
+    if (property === undefined) notFound()
+
+    const propertyDetail = await getPropertiesDetail(property.id)
 
     if ("error" in propertyDetail) {
         if (propertyDetail.status === 404) notFound()
-        throw new Error(`Impossible de récupérer la propriété ${id} : ${propertyDetail.error}`)
+        throw new Error(`Impossible de récupérer la propriété ${property.id} : ${propertyDetail.error}`)
     }
 
     return (
@@ -81,7 +89,7 @@ async function PropertyDetail({ params }: { params: Promise<PropertyPageParams> 
     )
 }
 
-export default function PropertyPage({ params }: PageProps<"/property/[id]">) {
+export default function PropertyPage({ params }: PageProps<"/property/[slug]">) {
     return (
         <ViewTransition enter="page-enter" exit="page-exit" default="none">
             <div className="flex flex-col max-w-278.75 2xl:max-w-4/5 mx-auto pt-2.5 lg:pt-25 px-4 lg:px-35 gap-10">

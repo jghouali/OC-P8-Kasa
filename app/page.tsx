@@ -1,12 +1,13 @@
 import { Suspense, ViewTransition } from "react";
-import { getProperties } from "./lib/properties";
+import { cachedGetProperties } from "./lib/properties";
 import { Card, CardContent, CardHeader, Link, Spinner } from "@heroui/react";
 import Image from 'next/image'
 import BannerTopImage from '../public/images/banner-top-home.jpg'
 import Icon from "./components/Icon";
 
 async function Properties() {
-  const properties = await getProperties()
+  const properties = await cachedGetProperties()
+
   if ("error" in properties) return <div>error : {properties.error}</div>;
 
   return (
@@ -28,7 +29,7 @@ async function Properties() {
             <CardHeader className="p-4 pb-0 gap-1">
               <h3 className="text-sm text-black">
                 {/* after:absolute after:inset-0 : le lien couvre toute la carte */}
-                <Link href={`/property/${property.id}`} className="text-black no-underline after:absolute after:inset-0">
+                <Link href={`/property/${property.slug}`} className="text-black no-underline after:absolute after:inset-0">
                   {property.title}
                 </Link>
               </h3>

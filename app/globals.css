@@ -116,29 +116,29 @@
    5. Animations pour Tailwind
    -------------------------------------------------------------------------- */
 @theme {
-    --animate-page-next: page-next 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) both;
-    --animate-page-previous: page-previous 0.6s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+    --animate-page-next: page-next 0.5s ease-in-out both;
+    --animate-page-previous: page-previous 0.5s ease-in-out both;
     @keyframes page-previous {
       from {
-        transform-origin: center;
-        transform: perspective(1200px) rotateY(-90deg);
+        transform-origin: right center;
+        transform: perspective(1500px) translateZ(-500px) rotateY(180deg);
         opacity: 0;
       }
       to {
-        transform-origin: center;
-        transform: perspective(1200px) rotateY(0deg);
+        transform-origin: right center;
+        transform: perspective(1500px) translateZ(0px) rotateY(0deg);
         opacity: 1;
       }
     }
     @keyframes page-next {
       from {
-        transform-origin: center;
-        transform: perspective(1200px) rotateY(90deg);
+        transform-origin: left center;
+        transform: perspective(1500px) translateZ(-500px) rotateY(-180deg);
         opacity: 0;
       }
       to {
-        transform-origin: center;
-        transform: perspective(1200px) rotateY(0deg);
+        transform-origin: left center;
+        transform: perspective(1500px) translateZ(0px) rotateY(0deg);
         opacity: 1;
       }
     }
