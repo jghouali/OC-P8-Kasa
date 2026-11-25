@@ -32,31 +32,33 @@ async function PropertyDetail({ params }: { params: Promise<PropertySlugPagePara
             <Carroussel pictures={propertyDetail.pictures} />
 
             {/* Description */}
-            <div className="flex flex-col gap-10 p-6 bg-white rounded-xl lg:col-span-2">
+            <div className="flex flex-col gap-10 p-6 bg-white rounded-xl lg:col-span-2 lg:mt-3.5">
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col gap-4">
-                        <h1 className="text-black font-medium text-[24px]">{propertyDetail.title}</h1>
-                        <div className="flex flex-row gap-2 items-center">
+                        <h1 className="text-black text-left font-medium text-[24px]">{propertyDetail.title}</h1>
+                        <div aria-hidden className="flex flex-row gap-2 items-center">
                             <Icon name="localisation" className="text-kasa-gris-dark" />
                             <p className="text-kasa-gris-dark text-[14px]">{propertyDetail.location}</p>
                         </div>
+                        <span className="sr-only">{`situé à ${propertyDetail.location}`}</span>
                     </div>
                     <p>{propertyDetail.description}</p>
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    <h2>Équipements</h2>
-                    <div className="flex flex-wrap gap-2">
+                    <h2 className="text-black text-[14px] font-medium">Équipements</h2>
+                    <div aria-hidden className="grid grid-cols-3 gap-2">
                         {propertyDetail.equipments.map((equipment) => (
-                            <Chip key={equipment} variant="secondary" className="justify-center min-w-30 h-8 rounded-md">
-                                <span className="text-[12px] text-kasa-gris-dark">{equipment}</span>
+                            <Chip key={equipment} variant="secondary" className="justify-center w-full p-2 rounded-md text-[12px] text-kasa-gris-dark">
+                                {equipment}
                             </Chip>
                         ))}
                     </div>
+                    <span className="sr-only">{`Equipé de ${propertyDetail.equipments.join(", ")}`}</span>
                 </div>
 
-                <div className="flex flex-col gap-4">
-                    <h2>Catégorie</h2>
+                <div aria-hidden className="flex flex-col gap-4">
+                    <h2 className="text-black text-[14px] font-medium">Catégorie</h2>
                     <div className="flex flex-wrap gap-2">
                         {propertyDetail.tags.map((tag) => (
                             <Chip key={tag} variant="secondary" className="justify-center min-w-30 h-8 rounded-md">
@@ -65,6 +67,7 @@ async function PropertyDetail({ params }: { params: Promise<PropertySlugPagePara
                         ))}
                     </div>
                 </div>
+                <span className="sr-only">{`Catégories :  ${propertyDetail.tags.join(", ")}`}</span>
             </div>
 
             {/* Votre hôte */}
@@ -72,13 +75,15 @@ async function PropertyDetail({ params }: { params: Promise<PropertySlugPagePara
                 <p className="font-medium">Votre hôte</p>
                 <div className="flex flex-row justify-between items-center py-4">
                     <Avatar className="rounded-lg size-20.5">
-                        <AvatarImage src={propertyDetail.host.picture} />
+                        <AvatarImage src={propertyDetail.host.picture} alt={`Avatar de ${propertyDetail.host.name}`} />
                     </Avatar>
-                    <p className="text-black font-normal">{propertyDetail.host.name}</p>
-                    <div className="flex flex-row items-center gap-1 p-2 px-3 bg-kasa-gris-light rounded-lg">
+                    <p aria-hidden className="text-black font-normal">{propertyDetail.host.name}</p>
+
+                    <div aria-hidden className="flex flex-row items-center gap-1 p-2 px-3 bg-kasa-gris-light rounded-lg">
                         <Icon name="star" className="text-kasa-main-red" />
                         {propertyDetail.rating_avg}
                     </div>
+                    <span className="sr-only">{`Avec une moyenne de ${propertyDetail.rating_avg} étoiles`}</span>
                 </div>
                 <div className="flex flex-col gap-2">
                     <Button className="w-full">Contacter l’hôte</Button>
@@ -92,7 +97,7 @@ async function PropertyDetail({ params }: { params: Promise<PropertySlugPagePara
 export default function PropertyPage({ params }: PageProps<"/property/[slug]">) {
     return (
         <ViewTransition enter="page-enter" exit="page-exit" default="none">
-            <div className="flex flex-col max-w-278.75 2xl:max-w-4/5 mx-auto pt-2.5 lg:pt-25 px-4 lg:px-35 gap-10">
+            <div className="flex flex-col max-w-278.75 2xl:max-w-4/5 mx-auto pt-2.5 lg:pt-25 pb-21.5 px-4 lg:px-35 gap-10">
                 <BackButton label="Retour aux annonces" />
                 <Suspense fallback={<Spinner />}>
                     <PropertyDetail params={params} />

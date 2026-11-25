@@ -52,7 +52,7 @@
 
   /* Divers */
   --border: #e3e3e3;
-  --separator: #ececec;
+  --separator: var(--kasa-gris-light);
   --focus: var(--kasa-main-red);
   --link: var(--accent);
 
@@ -102,14 +102,14 @@
    4. Components
    -------------------------------------------------------------------------- */
 @layer components {
-  .kasa-header { @apply w-full md:max-w-195.5 bg-white md:mx-auto p-2 md:rounded-normal shadow-[0px_4px_4px_0px_rgba(182,182,182,0.05)]; }
-
-  .link { @apply text-sm hover:no-underline; }
+  .link { @apply hover:no-underline; }
 
   .input { @apply w-auto h-10 bg-white border border-kasa-gris-light shadow-none; }
 
   .button { @apply rounded-normal; }
   .button:disabled { @apply bg-kasa-gris-light text-kasa-gris-dark opacity-100; }
+
+  .disclosure__body { @apply p-0;}
 }
 
 /* --------------------------------------------------------------------------
@@ -198,4 +198,9 @@
 }
 ::view-transition-old(.page-exit) {
   animation: 300ms ease-out both slide-to-left;
+}
+
+/* pour les * des labels de champs obligatoire */
+[data-required="true"] > .label::after {
+    content: "*" / "";
 }

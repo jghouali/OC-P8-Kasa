@@ -5,7 +5,7 @@ export async function proxy(request: NextRequest) {
     const cookieStore = await cookies()
     const token = cookieStore.get("token")
 
-    const isPublic = ["/login", "/register", "/recover", "/", "/a-propos"]
+    const isPublic = ["/login", "/register", "/recover", "/", "/cgu", "/a-propos"]
 
     if (!token && isPublic.includes(request.nextUrl.pathname)) return NextResponse.next()
 

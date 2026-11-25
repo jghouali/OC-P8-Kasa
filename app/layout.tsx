@@ -20,9 +20,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${inter.variable} scrollbar-gutter-both scrollbar-thin`}
+      className={`${inter.variable} scrollbar-none overflow-auto`}
     >
-      <body className="flex flex-col min-h-screen md:pt-10">
+      <body className="flex flex-col min-h-screen lg:pt-10">
         <Providers>
           <Menu />
           {children}
