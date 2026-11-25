@@ -1,6 +1,7 @@
 import BackButton from "@/app/components/BackButton";
 import Carroussel from "@/app/components/Caroussel";
 import Icon from "@/app/components/Icon";
+import { PropertyDetailSkeleton } from "@/app/components/Skeleton";
 import { cachedGetProperties, getPropertiesDetail } from "@/app/lib/properties";
 import { Avatar, AvatarImage, Button, Chip, Spinner } from "@heroui/react";
 import { notFound } from "next/navigation";
@@ -99,7 +100,7 @@ export default function PropertyPage({ params }: PageProps<"/property/[slug]">) 
         <ViewTransition enter="page-enter" exit="page-exit" default="none">
             <div className="flex flex-col max-w-278.75 2xl:max-w-4/5 mx-auto pt-2.5 lg:pt-25 pb-21.5 px-4 lg:px-35 gap-10">
                 <BackButton label="Retour aux annonces" />
-                <Suspense fallback={<Spinner />}>
+                <Suspense fallback={<PropertyDetailSkeleton />}>
                     <PropertyDetail params={params} />
                 </Suspense>
             </div>

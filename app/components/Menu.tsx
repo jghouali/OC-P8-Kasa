@@ -62,7 +62,7 @@ export default function Menu() {
                     invisible opacity-0 -translate-y-8
                     group-hover:visible group-hover:opacity-100 group-hover:translate-y-0
                     group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0
-                    transition-all duration-300 ease-out motion-reduce:transition-none">
+                    transition-all duration-300 ease-out">
                         <button
                             type="button"
                             aria-label="Rechercher un logement"

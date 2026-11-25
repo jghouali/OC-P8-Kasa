@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from 'next/image'
 import BannerTopImage from '../public/images/banner-top-home.jpg'
 import FavoriteButton from "./components/FavoriteButton";
+import PropertiesSkeleton from "./components/Skeleton";
 
 async function Properties() {
   const properties = await cachedGetProperties()
@@ -73,13 +74,14 @@ export default function Home() {
             src={BannerTopImage}
             alt="Maison en bois sombre au milieu des herbes hautes"
             loading="eager"
+            fetchPriority="high"
             sizes="(min-width: 1115px) 1115px, 100vw"
             className="w-full aspect-3/4 md:aspect-auto object-cover rounded-xl"
           />
         </section>
 
         {/* Logements */}
-        <Suspense fallback={<Spinner className="self-center" />}>
+        <Suspense fallback={<PropertiesSkeleton />}>
           <Properties />
         </Suspense>
 

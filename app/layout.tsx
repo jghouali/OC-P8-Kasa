@@ -20,12 +20,20 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${inter.variable} scrollbar-none overflow-auto`}
+      className={`${inter.variable} scrollbar-thin scrollbar-thumb-kasa-main-red scrollbar-track-transparent scrollbar-gutter-stable`}
     >
       <body className="flex flex-col min-h-screen lg:pt-10">
+        <a
+          href="#contenu"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-kasa-main-red"
+        >
+          Aller au contenu
+        </a>
         <Providers>
           <Menu />
-          {children}
+          <main id="contenu" className="flex-1">
+            {children}
+          </main>
         </Providers>
         <Footer />
       </body>
