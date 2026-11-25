@@ -31,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </a>
         <Providers>
           <Menu />
-          <main id="contenu" className="flex-1">
+          <main id="contenu" className="flex flex-1">
             {children}
           </main>
         </Providers>
